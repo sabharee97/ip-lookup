@@ -34,3 +34,4 @@ function lookupIP() {
             console.error('Error:', error);
         });
 }
+
