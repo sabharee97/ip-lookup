@@ -7,8 +7,8 @@ function lookupIP() {
         return;
     }
 
-    // API URL (using ip-api.com)
-    const apiURL = `http://ip-api.com/json/${ip}`;
+    // API URL using HTTPS
+    const apiURL = `https://ip-api.com/json/${ip}`;
 
     fetch(apiURL)
         .then(response => response.json())
