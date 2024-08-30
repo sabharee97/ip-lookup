@@ -7,24 +7,29 @@ function lookupIP() {
         return;
     }
 
-    // API URL using HTTPS
-    const apiURL = `https://ip-api.com/json/${ip}`;
+    // Using ipinfo.io API
+    const apiURL = `https://ipinfo.io/${ip}/json`;
 
     fetch(apiURL)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.status === "fail") {
+            if (data.error) {
                 ipInfoDiv.textContent = "Invalid IP address.";
                 return;
             }
 
             const info = `
-                <strong>IP:</strong> ${data.query}<br>
+                <strong>IP:</strong> ${data.ip}<br>
                 <strong>City:</strong> ${data.city}<br>
-                <strong>Region:</strong> ${data.regionName}<br>
+                <strong>Region:</strong> ${data.region}<br>
                 <strong>Country:</strong> ${data.country}<br>
-                <strong>Location:</strong> ${data.lat}, ${data.lon}<br>
-                <strong>ISP:</strong> ${data.isp}<br>
+                <strong>Location:</strong> ${data.loc}<br>
+                <strong>ISP:</strong> ${data.org}<br>
                 <strong>Timezone:</strong> ${data.timezone}
             `;
             ipInfoDiv.innerHTML = info;
@@ -34,4 +39,3 @@ function lookupIP() {
             console.error('Error:', error);
         });
 }
-
